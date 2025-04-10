@@ -1,0 +1,18 @@
+# Ignore virtual environment and node_modules
+venv/
+node_modules/
+
+# Python stuff
+__pycache__/
+*.pyc
+
+# SQLite DB
+*.sqlite3
+
+# VSCode or IDE stuff
+.vscode/
+.idea/
+
+# OS files
+.DS_Store
+Thumbs.db
