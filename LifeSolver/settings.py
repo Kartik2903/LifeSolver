@@ -38,7 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'tailwind',
-    'django_browser_reload',
+    # 'django_browser_reload',
     'videos', #app
 ]
 
@@ -55,7 +55,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 
 
-    "django_browser_reload.middleware.BrowserReloadMiddleware", #hot reloading
+    # "django_browser_reload.middleware.BrowserReloadMiddleware", #hot reloading
 ]
 
 ROOT_URLCONF = 'LifeSolver.urls'
