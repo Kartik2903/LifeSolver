@@ -40,7 +40,12 @@ SECRET_KEY = 'django-insecure-%ql-4zf)d3mg0lhhx$4n%g$2%pk#vum$qn_0j+)0ncvsv4ye1n
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['*']
+if ENVIRONMENT == 'production':
+    ALLOWED_HOSTS = ['lifesolver.onrender.com']
+else:
+    ALLOWED_HOSTS = ['localhost', '127.0.0.1']
+
+
 
 
 # Application definition
@@ -155,7 +160,8 @@ STATICFILES_DIRS = [
 ]
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles') #for deployment
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+if ENVIRONMENT == 'production':
+    STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
