@@ -12,8 +12,23 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 
 from pathlib import Path
 import os
+
+# from dotenv import load_dotenv
+
+# print("DEBUG MODE:", os.getenv("DEBUG"))
+
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+# Load the .env file
+# load_dotenv(os.path.join(BASE_DIR, '.env'))
+
+# Now fetch the variables
+SECRET_KEY = os.getenv("SECRET_KEY")
+DEBUG = os.getenv("DEBUG") == "True"
+ENVIRONMENT = os.getenv("ENVIRONMENT", "development")  # Default to 'development' if not set
+ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "").split(",")
 
 
 # Quick-start development settings - unsuitable for production
@@ -38,28 +53,33 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'tailwind',
-    # 'django_browser_reload',
+    'theme',
     'videos', #app
 ]
+
+if DEBUG and ENVIRONMENT=='development':
+    INSTALLED_APPS += ['django_browser_reload']
 
 TAILWIND_APP_NAME = 'theme' # This is the name of the app that will be used to generate the tailwind files
 INTERNAL_IPS = ['127.0.0.1']
 
 MIDDLEWARE = [
-    'django.middleware.security.SecurityMiddleware',
+    'django.middleware.security.SecurityMiddleware',]
 
-    'whitenoise.middleware.WhiteNoiseMiddleware',
+if ENVIRONMENT=='production':
+     MIDDLEWARE.append("whitenoise.middleware.WhiteNoiseMiddleware")
 
+MIDDLEWARE += [
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-
-
-    # "django_browser_reload.middleware.BrowserReloadMiddleware", #hot reloading
 ]
+
+if DEBUG:
+    MIDDLEWARE += ['django_browser_reload.middleware.BrowserReloadMiddleware'] #hot reloading
 
 ROOT_URLCONF = 'LifeSolver.urls'
 
@@ -141,3 +161,15 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+
+if ENVIRONMENT == 'production':
+    ALLOWED_HOSTS = ['lifesolver.onrender.com']
+    
+    STATIC_ROOT = BASE_DIR / "staticfiles"
+    STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+    MIDDLEWARE.insert(1, 'whitenoise.middleware.WhiteNoiseMiddleware')
+
+else:  # development
+    ALLOWED_HOSTS = ['localhost', '127.0.0.1']
