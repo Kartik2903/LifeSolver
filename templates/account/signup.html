@@ -1,0 +1,96 @@
+{% load i18n %}
+{% load static %}
+{% load socialaccount %}
+{% load account %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% trans "Create an Account" %}</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-900 text-white min-h-screen flex items-center justify-center">
+
+    <div class="w-full max-w-md bg-gray-800 rounded-lg shadow-md p-8">
+        <h1 class="text-3xl font-bold mb-6 text-center">{% trans "Create an Account" %}</h1>
+
+
+        <form method="POST" autocomplete='off' action="{% url 'account_signup' %}" class="space-y-4">
+            {% csrf_token %}
+          {{ form.non_field_errors }}
+        <div>
+          <label for="{{ field.id_for_label }}" class="block text-sm font-medium text-gray-200 mb-1">Email</label>
+          <input 
+        type="email" 
+        name="{{ form.username }}"
+        id="{{ form.username.id_for_label }}"
+        value="{{ form.username.value|default_if_none:'' }}"
+        class="w-full px-3 py-2 rounded bg-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-indigo-500 mb-2"
+        placeholder="Email"
+        required
+      >
+
+      <!--Password 1-->
+       <div>
+                <label for="{{ form.password.id_for_label }}" class="block mb-1 text-sm font-medium text-gray-300">
+                    Password
+                </label>
+                <input type="password" name="{{ form.password1.name }}" id="{{ form.password1.id_for_label }}"
+                    class="w-full p-2 rounded bg-gray-700 text-white border border-gray-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 mb-2" placeholder="Password" required>
+
+           {% if form.password1.errors %}
+        <div class="mt-2 mb-2 p-3 bg-red-600 text-sm rounded">{{ form.password1.errors.0 }}</div>
+            {% endif %}
+            </div>
+
+        <!--Password 2-->
+            <div>
+                <label for="{{ form.confirm_password.id_for_label }}" class="block mb-1 text-sm font-medium text-gray-300">
+                   Confirm Password
+                </label>
+
+                {% comment %} {% if  %}{% endif %} {% endcomment %}
+                <input type="password" name="{{ form.confirm_password.name }}" id="{{ form.confirm_password.id_for_label }}"
+                    class="w-full p-2 rounded bg-gray-700 text-white border border-gray-600 focus:outline-none focus:ring-2 focus:ring-indigo-500" placeholder="Confirm Password" required>
+            </div>
+
+        {% if form.confirm_password.errors %}
+        <div class="mt-2 -mb-1 p-3 bg-red-600 text-sm rounded">{{ form.confirm_password.errors.0 }}</div>
+        {% endif %}
+        </div>
+      
+
+
+            {% comment %} {{ redirect_field }}`` {% endcomment %}
+
+            <button type="submit"
+        class="w-full py-2 px-4 bg-indigo-600 text-white rounded hover:bg-indigo-700 transition">
+        {% trans "Create Account" %}
+      </button>
+    </form>
+
+    <p class="mt-6 text-center text-sm text-gray-300">
+      {% trans "Already have an account?" %} 
+      <a href="{% url 'account_login' %}" class="text-indigo-400 hover:underline">
+        {% trans "Sign In" %}
+      </a>
+    </p>
+
+        {% if SOCIALACCOUNT_ENABLED %}
+        <div class="mt-2 border-t border-gray-700 pt-2">
+            <div class="mt-6 text-center">
+            <a href="{% provider_login_url 'google' process='login' %}"
+       class="inline-flex items-center justify-center gap-2 px-4 py-2 bg-blue-600 text-white rounded shadow hover:bg-gray-100 hover:text-black transition">
+        <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google"
+             class="w-5 h-5">
+        <span>Sign in with Google</span>
+    </a>
+</div>
+        {% endif %}
+
+    </div>
+
+    
+</body>
+</html>

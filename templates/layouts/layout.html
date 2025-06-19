@@ -14,8 +14,26 @@
 
 </head>
 <body class="bg-[#222426] m-0 p-0 text-white">
-    <nav class="fixed top-0 w-full bg-[#181a1b] color shadow-md z-50 flex justify-end p-2">
-        <button class="m-2 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-700 transition">Sign In</button>
+     <nav class="fixed top-0 w-full bg-[#181a1b] color shadow-md z-50 flex justify-end p-2 ">
+        
+
+       {% if user.is_authenticated %}
+       <span class="text-white p-4">Welcome, {{ user.username }}!</span>
+
+        <form action="{% url 'account_logout' %}" method="post" class="inline">
+        {% csrf_token %}
+        <button type="submit" class="m-2 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-700 transition hover:cursor-pointer">
+            Sign Out
+        </button>
+    </form>
+{% else %}
+    <form action="{% url 'account_login' %}" method="get" class="inline">
+        <button type="submit" class="m-2 px-4 py-2 bg-blue-500 text-white rounded hover:bg-green-700 transition hover:cursor-pointer">
+            Sign In
+        </button>
+    </form>
+{% endif %}
+
     </nav>
 
     {% block main %}
