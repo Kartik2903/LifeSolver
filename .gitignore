@@ -19,3 +19,6 @@ Thumbs.db
 
 # API files
 google_calendar/credentials.json
+
+#gitignore
+.env
