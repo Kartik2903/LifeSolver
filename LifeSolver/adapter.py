@@ -6,7 +6,7 @@ from django.contrib.auth import get_user_model
 class CustomSocialAccountAdapter(DefaultSocialAccountAdapter):
     def pre_social_login(self, request, sociallogin):
         email = user_email(sociallogin.user)
-        if not sociallogin.is_exisiting:
+        if not sociallogin.is_existing:
             try:
                 user = get_user_model().objects.get(email=email)
                 sociallogin.connect(request, user)
