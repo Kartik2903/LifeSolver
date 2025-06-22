@@ -79,9 +79,9 @@ ACCOUNT_LOGIN_METHODS = {'email'}
 ACCOUNT_SIGNUP_FIELDS = ['email*', 'password1*', 'password2*']
 
 if os.environ.get('RENDER'):
-    SITE_ID = 2  # your production site's ID
+    SITE_ID = 1  # your production site's ID
 else:
-    SITE_ID = 1  # localhost
+    SITE_ID = 2  # localhost
 
 AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
