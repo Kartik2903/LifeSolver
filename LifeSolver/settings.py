@@ -76,7 +76,7 @@ INSTALLED_APPS = [
 #Django AllAuth Config
 
 ACCOUNT_LOGIN_METHODS = {'email'}
-ACCOUNT_SIGNUP_FIELDS = ['email*', 'username*', 'password1*', 'password2*']
+ACCOUNT_SIGNUP_FIELDS = ['email*', 'password1*', 'password2*']
 
 if os.environ.get('RENDER'):
     SITE_ID = 2  # your production site's ID
@@ -104,11 +104,11 @@ SOCIALACCOUNT_PROVIDERS = {
             'access_type': 'online',
             'prompt': 'select_account'
         },
-        'APP': {
-            'client_id': os.getenv('GOOGLE_CLIENT_ID'),
-            'secret': os.getenv('GOOGLE_CLIENT_SECRET'),
-            'key': ''
-        }
+        # 'APP': {
+        #     'client_id': os.getenv('GOOGLE_CLIENT_ID', ''),
+        #     'secret': os.getenv('GOOGLE_CLIENT_SECRET', ''),
+        #     'key': ''
+        # }
     }
 }
 
@@ -116,7 +116,7 @@ SOCIALACCOUNT_PROVIDERS = {
 SOCIALACCOUNT_LOGIN_ON_GET = True
 SOCIALACCOUNT_AUTO_SIGNUP = True
 ACCOUNT_EMAIL_VERIFICATION = "none"
-ACCOUNT_USERNAME_REQUIRED = False
+# ACCOUNT_USERNAME_REQUIRED = False
 SOCIALACCOUNT_QUERY_EMAIL = True
 
 ACCOUNT_FORMS = {
