@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 
 from pathlib import Path
 import os
+import django
 
 # import logging
 
@@ -268,3 +269,12 @@ else:  # development
 #         },
 #     },
 # }
+
+
+from django.contrib.sites.models import Site
+print(">>> SITE_ID:", SITE_ID)
+try:
+    site = Site.objects.get(id=SITE_ID)
+    print(">>> Active Site:", site.domain)
+except Site.DoesNotExist:
+    print(">>> ❌ Site ID not found in DB!")
