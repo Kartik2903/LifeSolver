@@ -240,7 +240,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
 if ENVIRONMENT == 'production':
-    ALLOWED_HOSTS = ['lifesolver.onrender.com']
+    ALLOWED_HOSTS = ['lifesolver.onrender.com', '127.0.0.1', 'localhost']
     
     STATIC_ROOT = BASE_DIR / "staticfiles"
     STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
