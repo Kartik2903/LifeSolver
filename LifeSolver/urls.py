@@ -26,7 +26,7 @@ urlpatterns = [
     path('',views.home, name='home'),
     path("videos/", include('videos.urls')),
     path("account/", include('allauth.urls')),
-    path("fix-google-link/", views.fix_render_google_site_link),
+    path("fix-google-link/", views.setup_render_site_and_socialapp),
 ]
 
 if settings.DEBUG:
