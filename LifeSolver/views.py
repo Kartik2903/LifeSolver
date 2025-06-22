@@ -32,4 +32,4 @@ def setup_render_site_and_socialapp(request):
 
         return HttpResponse(msg1 + "✅ SocialApp linked successfully.")
     except Exception as e:
-        return HttpResponse(f"❌ Error: {e}")
+        return HttpResponse(f"❌ Error: {e} 2")
