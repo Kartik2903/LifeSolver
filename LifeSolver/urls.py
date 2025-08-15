@@ -25,8 +25,9 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('',views.home, name='home'),
     path("videos/", include('videos.urls')),
-    path("account/", include('allauth.urls')),
-    path("fix-google-link/", views.setup_render_site_and_socialapp),
+    path("", include('authentication.urls')),  # Simple auth URLs
+    path('dashboard/', include('dashboard.urls')),
+    path('library/', include('library.urls')),
 ]
 
 if settings.DEBUG:

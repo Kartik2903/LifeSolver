@@ -1,0 +1,111 @@
+{% load static tailwind_tags %}
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Life Solver Library</title>
+    {% tailwind_css %}
+</head>
+<body class="bg-gray-50">
+
+    <h1 class="text-5xl font-bold text-center mt-12 mb-8">Books of Timeless Wisdom</h1>
+
+    <section class="grid grid-cols-5 gap-6 max-w-5xl mx-auto">
+        {% for book in books %}
+        <div 
+            class="bg-red-300 rounded-lg shadow-md p-8 flex flex-col items-center justify-center cursor-pointer transition hover:bg-red-400 relative book-div"
+            onclick="showOptions(this)">
+            <span class="text-xl font-semibold">{{book.title.strip}}</span>
+            <span class="text-md font-light">By {{book.author.strip}}</span>
+
+            <p class="update-progress"></p>
+
+            <div class="hidden absolute inset-0 bg-white bg-opacity-90 flex-col items-center justify-center z-10 options-div">
+                <button class="mb-2 px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 cursor-pointer" onclick="completed(this)">Read</button>
+                <button class="px-4 py-2 bg-blue-400 text-white rounded hover:bg-blue-500 cursor-pointer" onclick="booklink(this, '{{book.url}}')">Buy Now</button>
+                <span class="items-center justify-center m-auto"><button class="px-4 py-2 bg-yellow-500 text-white rounded hover:bg-yellow-600 cursor-pointer" onclick="progress(this)">In progress</button>
+                 </span>
+            </div>
+        </div>
+        {% endfor %}
+    </section>
+
+    <script>
+        function showOptions(div) {
+            // Hide all other options
+            document.querySelectorAll('.options-div').forEach(opt => opt.classList.add('hidden'));
+            // Show options for clicked div
+            div.querySelector('.options-div').classList.remove('hidden');
+        }
+        
+        
+        // Hide options when clicking outside
+        document.addEventListener('click', function(e) {
+            if (!e.target.closest('.book-div')) {
+                document.querySelectorAll('.options-div').forEach(opt => opt.classList.add('hidden'));
+            }
+        });
+
+        function completed(btn){
+            event.stopPropagation();
+            btn.closest('.book-div').classList.add('bg-green-600');
+            btn.closest('.book-div').classList.add('hover:bg-green-600');
+            btn.closest('.options-div').classList.add('hidden');
+
+             const bookTitle = btn.closest('.book-div').querySelector('.text-xl').textContent;
+            const storedData = localStorage.getItem(`book_${bookTitle}`);
+    
+            if (storedData) {
+                const progressData = JSON.parse(storedData);
+                const startDate = new Date(progressData.startDate);
+                const endDate = new Date();
+                
+                const durationMs = endDate - startDate;
+                const durationDays = Math.ceil(durationMs / (1000 * 60 * 60 * 24));
+                
+                // Update progress display
+                const progressElement = btn.closest('.book-div').querySelector('.update-progress');
+                progressElement.textContent = `Completed in ${durationDays} days`;
+                
+                // Save completion data
+                progressData.endDate = endDate.toISOString();
+                progressData.status = 'completed';
+                progressData.durationDays = durationDays;
+                localStorage.setItem(`book_${bookTitle}`, JSON.stringify(progressData));
+            }
+        }
+
+    function progress(btn){
+        event.stopPropagation();
+        btn.closest('.book-div').classList.remove('bg-red-300');
+        btn.closest('.book-div').classList.add('bg-yellow-400');
+        btn.closest('.options-div').classList.add('hidden');
+        
+        const bookTitle = btn.closest('.book-div').querySelector('.text-xl').textContent;
+        const progressData = {
+            startDate: new Date().toISOString(),
+            bookTitle: bookTitle,
+            status: 'in-progress'
+        };
+        
+        localStorage.setItem(`book_${bookTitle}`, JSON.stringify(progressData));
+        
+        // Update progress display
+        const progressElement = btn.closest('.book-div').querySelector('.update-progress');
+        progressElement.textContent = `Number of Days: 1`;
+    }
+
+
+        function booklink(btn){
+            event.stopPropagation();
+            btn.closest('.book-div').classList.add('bg-blue-500');
+            btn.closest('.book-div').classList.add('hover:bg-blue-600');
+            btn.closest('.options-div').classList.add('hidden');
+            {% comment %} window.location.href = "https://www.google.com"; {% endcomment %}
+
+        }
+
+    </script>
+</body>
+</html>

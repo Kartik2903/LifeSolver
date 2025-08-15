@@ -12,7 +12,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 
 from pathlib import Path
 import os
-
+import django
 
 # import logging
 
@@ -29,23 +29,14 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # Now fetch the variables
 SECRET_KEY = os.getenv("SECRET_KEY", "fallback-dev-secret-key")
-# DEBUG = os.getenv("DEBUG") == "True"
 ENVIRONMENT = os.getenv("ENVIRONMENT", "development")  # Default to 'development' if not set
 
-
-
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
-
-# SECURITY WARNING: keep the secret key used in production secret!
-# SECRET_KEY = "django-insecure-%ql-4zf)d3mg0lhhx$4n%g$2%pk#vum$qn_0j+)0ncvsv4ye1n"
-
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
- 
 if ENVIRONMENT == 'production':
-    ALLOWED_HOSTS = ['lifesolver.onrender.com']
+    DEBUG = False
+    ALLOWED_HOSTS = ['lifesolver.onrender.com', '*.onrender.com']
 else:
+    DEBUG = True
     ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 
 
@@ -59,70 +50,29 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'widget_tweaks',  # for django-widget-tweaks
 
-    #authentication
+    # Simple authentication apps
     'django.contrib.sites',
-    'allauth',
-    'allauth.account',
-    'allauth.socialaccount',
-    'allauth.socialaccount.providers.google',
-    'allauth.socialaccount.providers.facebook',
-
-
+    'authentication',  # our simple auth app
+    
     'tailwind',
     'theme',
+    'dashboard',  # missing app
+    'library',    # missing app
     'videos', #app
 ]
 
-#Django AllAuth Config
-
-ACCOUNT_LOGIN_METHODS = {'email'}
-ACCOUNT_SIGNUP_FIELDS = ['email*', 'password1*', 'password2*']
-
-if os.environ.get('RENDER'):
-    SITE_ID = 1  # your production site's ID
-else:
-    SITE_ID = 2  # localhost
+# Simple authentication config
+SITE_ID = 1
 
 AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
-    'allauth.account.auth_backends.AuthenticationBackend',
 ]
 
-LOGIN_REDIRECT_URL = '/'
-ACCOUNT_LOGOUT_REDIRECT_URL = '/'
-ACCOUNT_SIGNUP_REDIRECT_URL = "/"
-
-ACCOUNT_LOGOUT_ON_GET = True
-
-SOCIALACCOUNT_ADAPTER = "LifeSolver.adapter.CustomSocialAccountAdapter"
-
-
-SOCIALACCOUNT_PROVIDERS = { 
-    'google': {
-        'SCOPE': ['profile', 'email'],
-        'AUTH_PARAMS': {
-            'access_type': 'online',
-            'prompt': 'select_account'
-        },
-        # 'APP': {
-        #     'client_id': os.getenv('GOOGLE_CLIENT_ID', ''),
-        #     'secret': os.getenv('GOOGLE_CLIENT_SECRET', ''),
-        #     'key': ''
-        # }
-    }
-}
-
-
-SOCIALACCOUNT_LOGIN_ON_GET = True
-SOCIALACCOUNT_AUTO_SIGNUP = True
-ACCOUNT_EMAIL_VERIFICATION = "none"
-# ACCOUNT_USERNAME_REQUIRED = False
-SOCIALACCOUNT_QUERY_EMAIL = True
-
-ACCOUNT_FORMS = {
-    'signup': 'LifeSolver.forms.CustomSignupForm',
-}
+LOGIN_REDIRECT_URL = '/dashboard/'
+LOGOUT_REDIRECT_URL = '/'
+LOGIN_URL = '/login/'
 
 if DEBUG==True and ENVIRONMENT=='development':
     INSTALLED_APPS += ['django_browser_reload']
@@ -143,9 +93,6 @@ MIDDLEWARE += [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-
-    "allauth.account.middleware.AccountMiddleware",
-
 ]
 
 if DEBUG:
@@ -224,12 +171,14 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
 STATICFILES_DIRS = [
-    BASE_DIR / "static",  # or os.path.join(BASE_DIR, 'static')
+    BASE_DIR / "static",
 ]
 
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles') #for deployment
+STATIC_ROOT = BASE_DIR / 'staticfiles'
+
+# Production static files configuration
 if ENVIRONMENT == 'production':
     STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
@@ -237,19 +186,6 @@ if ENVIRONMENT == 'production':
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
-
-
-if ENVIRONMENT == 'production':
-    ALLOWED_HOSTS = ['lifesolver.onrender.com', '127.0.0.1', 'localhost']
-    
-    STATIC_ROOT = BASE_DIR / "staticfiles"
-    STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
-    MIDDLEWARE.insert(1, 'whitenoise.middleware.WhiteNoiseMiddleware')
-
-
-else:  # development
-    ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 
 
 # logging.basicConfig(level=logging.DEBUG)
@@ -271,10 +207,10 @@ else:  # development
 # }
 
 
-from django.contrib.sites.models import Site
-print(">>> SITE_ID:", SITE_ID)
-try:
-    site = Site.objects.get(id=SITE_ID)
-    print(">>> Active Site:", site.domain)
-except Site.DoesNotExist:
-    print(">>> ❌ Site ID not found in DB!")
+# from django.contrib.sites.models import Site
+# print(">>> SITE_ID:", SITE_ID)
+# try:
+#     site = Site.objects.get(id=SITE_ID)
+#     print(">>> Active Site:", site.domain)
+# except Site.DoesNotExist:
+#     print(">>> ❌ Site ID not found in DB!")
