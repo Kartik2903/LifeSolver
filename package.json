@@ -1,0 +1,12 @@
+{
+  "name": "lifesolver",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build-css": "tailwindcss -i ./theme/static_src/src/styles.css -o ./theme/static/css/dist/styles.css --minify"
+  },
+  "devDependencies": {
+    "tailwindcss": "^3.4.0"
+  }
+}

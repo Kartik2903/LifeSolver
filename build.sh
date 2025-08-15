@@ -2,10 +2,10 @@
 # exit on error
 set -o errexit
 
-echo "Installing requirements..."
+echo "Installing Python requirements..."
 pip install -r requirements.txt
 
-echo "Collecting static files..."
+echo "Collecting static files (including pre-built Tailwind CSS)..."
 python manage.py collectstatic --no-input
 
 echo "Running migrations..."
