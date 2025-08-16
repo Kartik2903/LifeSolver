@@ -1,11 +1,13 @@
-# Authentication Fix for Render.com Deployment
+# LifeSolver - Render.com Deployment Guide
 
 ## What We Fixed:
 
 ✅ **Removed AllAuth** - Eliminated the complex Site object issues causing DoesNotExist errors
-✅ **Simple Authentication** - Created basic Django auth (signup/login/logout)
+✅ **Simple Authentication** - Created basic Django auth (signup/login/logout)  
 ✅ **Cleaned Dependencies** - Removed allauth packages from requirements.txt
 ✅ **Production Settings** - Fixed DEBUG and ALLOWED_HOSTS configuration
+✅ **CSS Build Issues** - Removed package.json detection to prevent npm build errors
+✅ **Pre-built CSS** - Using static Tailwind CSS files instead of build process
 
 ## Update Your Existing Render Service:
 
@@ -20,7 +22,12 @@ Update to: `./build.sh`
 ### 3. Start Command: 
 Keep as: `gunicorn LifeSolver.wsgi:application`
 
-### 4. Deploy:
+### 4. Important: CSS Build Fix
+- **package.json renamed** to `package.json.bak` to prevent npm detection
+- **Pre-built CSS** is included in `static/css/dist/styles.css` 
+- **No npm build required** - everything is handled by Django's collectstatic
+
+### 5. Deploy:
 Just push your changes to GitHub - Render will automatically redeploy
 
 ## New Authentication URLs:
