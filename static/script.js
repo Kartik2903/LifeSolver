@@ -6,7 +6,7 @@ const templates = [
       title: 'Daily Self Tracking',
       category: 'Self-tracking',
       description: 'Time follows who you are!',
-      image: "/static/images/selftracking.jpg",
+      image: "/static/images/selftracking.jpeg",
       link:'https://docs.google.com/spreadsheets/d/1Bdy0y30Kpsaqk6Thu8lZ5wmBvASGaSOe6NnKykbJA9k/edit?usp=sharing',
       button:'View Tracker'
     },
@@ -15,7 +15,7 @@ const templates = [
       title: 'Insightful Questions',
       category: 'Enquiry',
       description: 'Diagnosis is Cure!',
-      image: "/static/images/inquire.jpg",
+      image: "/static/images/inquire.jpeg",
       link:'https://docs.google.com/document/d/1FPimBYyJ-IQFy4-KNSCZd2zfsnGo7DOEaD5jzYoEWrg/edit?tab=t.0',
       button:'Know your disease'
     },
@@ -33,7 +33,7 @@ const templates = [
       title: 'Fun Quiz',
       category: 'Assessment',
       description: 'Real laughter comes after knowing the self!',
-      image: 'https://img.freepik.com/premium-photo/illuminating-image-depicting-human-brain-inside-light-bulb_884296-108047.jpg',
+      image: 'static/images/quiz.jpeg',
       link:'https://docs.google.com/forms/d/e/1FAIpQLSf06RME89oaBdAN0rqjeQd24q9SmqhERXwOO0bah35cuPvEzw/viewform?usp=header',
       button: 'Play now'
     },
