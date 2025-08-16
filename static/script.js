@@ -6,7 +6,7 @@ const templates = [
       title: 'Daily Self Tracking',
       category: 'Self-tracking',
       description: 'Time follows who you are!',
-      image: '/static/images/selftracking.jpg',
+      image: "/static/images/selftracking.jpg",
       link:'https://docs.google.com/spreadsheets/d/1Bdy0y30Kpsaqk6Thu8lZ5wmBvASGaSOe6NnKykbJA9k/edit?usp=sharing',
       button:'View Tracker'
     },
