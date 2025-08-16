@@ -1,4 +1,4 @@
-{% load static tailwind_tags %}
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,8 +8,13 @@
         Life Solver
         {% endblock %}</title>
     <link rel="stylesheet" href="{% static 'styles.css' %}">
-    {% tailwind_css %}
-    {% comment %} <script src="https://cdn.tailwindcss.com"></script> {% endcomment %}
+    {% if debug %}
+        <!-- Development: Use CDN for quick development -->
+        <script src="https://cdn.tailwindcss.com"></script>
+    {% else %}
+        <!-- Production: Use pre-built CSS -->
+        <link rel="stylesheet" href="{% static 'css/dist/styles.css' %}">
+    {% endif %}
 
 </head>
 <body class="bg-[#222426] m-0 p-0 text-white">

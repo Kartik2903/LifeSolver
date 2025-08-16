@@ -1,14 +1,12 @@
 console.log("JS loaded");
 
-
-
 const templates = [
     {
       id: 1,
       title: 'Daily Self Tracking',
       category: 'Self-tracking',
       description: 'Time follows who you are!',
-      image: 'https://media.licdn.com/dms/image/v2/D4D12AQHVHLQKAFS3Mg/article-cover_image-shrink_720_1280/article-cover_image-shrink_720_1280/0/1676275664910?e=1748476800&v=beta&t=6Ivx3VpBbq7gPNDvIs8oPmHkOYJVx0bHURcGOIQsCkc',
+      image: '/static/images/selftracking.jpg',
       link:'https://docs.google.com/spreadsheets/d/1Bdy0y30Kpsaqk6Thu8lZ5wmBvASGaSOe6NnKykbJA9k/edit?usp=sharing',
       button:'View Tracker'
     },
@@ -26,10 +24,10 @@ const templates = [
       title: 'Personalized one-to-one counselling',
       category: 'Counselling',
       description: 'Safe, secured & privacy ensured!',
-      image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQmrcInFMVLf9XTNlx0ExHsYnKIWRbktSGNOdIA-mDTmDZ6V3Jk-fnGYUd0pS_BUmouV9Y&usqp=CAU',
+      image: '/static/images/counselling.jpeg',
       link:'https://docs.google.com/forms/d/e/1FAIpQLSfjv6c7LwgkVjz3Pf--68mX-uTCrYPXs0-V2JBrgqm9OOgxIA/viewform?usp=header',
       button: 'Book now'
-    },
+     },
     {
       id: 4,
       title: 'Fun Quiz',
@@ -59,21 +57,12 @@ const templates = [
     },
     {
       id: 7,
-      title: '',
-      category: 'Assessment',
+      title: 'Accountability Tracker',
+      category: 'Self-tracking',
       description: '',
-      image: '',
+      image: '/static/images/accountabilty.jpg',
       link:'',
-      button: 'Play now'
-    },
-    {
-      id: 8,
-      title: '',
-      category: 'Assessment',
-      description: '',
-      image: '',
-      link:'',
-      button: 'Play now'
+      button: 'Track Now'
     },
     
   ];
@@ -117,7 +106,6 @@ function loadTemplates() {
         container.appendChild(card);
     });
 }
-
 
 //Searching
   // function filterTemplates() {

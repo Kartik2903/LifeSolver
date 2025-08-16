@@ -33,8 +33,30 @@ ENVIRONMENT = os.getenv("ENVIRONMENT", "development")  # Default to 'development
 
 # SECURITY WARNING: don't run with debug turned on in production!
 if ENVIRONMENT == 'production':
-    DEBUG = False
+    DEBUG = False  # Disabled for production security
     ALLOWED_HOSTS = ['lifesolver.onrender.com', '*.onrender.com']
+    
+    # Enable logging for production debugging
+    LOGGING = {
+        'version': 1,
+        'disable_existing_loggers': False,
+        'handlers': {
+            'console': {
+                'class': 'logging.StreamHandler',
+            },
+        },
+        'root': {
+            'handlers': ['console'],
+            'level': 'INFO',
+        },
+        'loggers': {
+            'django': {
+                'handlers': ['console'],
+                'level': 'INFO',
+                'propagate': False,
+            },
+        },
+    }
 else:
     DEBUG = True
     ALLOWED_HOSTS = ['localhost', '127.0.0.1']
@@ -56,8 +78,6 @@ INSTALLED_APPS = [
     'django.contrib.sites',
     'authentication',  # our simple auth app
     
-    'tailwind',
-    'theme',
     'dashboard',  # missing app
     'library',    # missing app
     'videos', #app
@@ -77,7 +97,6 @@ LOGIN_URL = '/login/'
 if DEBUG==True and ENVIRONMENT=='development':
     INSTALLED_APPS += ['django_browser_reload']
 
-TAILWIND_APP_NAME = 'theme' # This is the name of the app that will be used to generate the tailwind files
 INTERNAL_IPS = ['127.0.0.1']
 
 MIDDLEWARE = [
@@ -151,9 +170,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
-
-NPM_BIN_PATH = r"C:\Program Files\nodejs\npm.cmd"
 
 
 # Internationalization
