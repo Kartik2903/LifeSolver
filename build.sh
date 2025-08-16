@@ -5,7 +5,13 @@ set -o errexit
 echo "Installing Python requirements..."
 pip install -r requirements.txt
 
-echo "Collecting static files (including pre-built Tailwind CSS)..."
+echo "Installing Node.js dependencies..."
+npm install
+
+echo "Building Tailwind CSS..."
+npm run build
+
+echo "Collecting static files (including built Tailwind CSS)..."
 python manage.py collectstatic --no-input
 
 echo "Running migrations..."
