@@ -25,7 +25,13 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('',views.home, name='home'),
     path("videos/", include('videos.urls')),
+    
+    # AllAuth URLs (includes Google OAuth)
+    path('accounts/', include('allauth.urls')),
+    
+    # Keep simple auth as fallback
     path("", include('authentication.urls')),  # Simple auth URLs
+    
     path('dashboard/', include('dashboard.urls')),
     path('library/', include('library.urls')),
 ]

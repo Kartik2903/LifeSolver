@@ -74,21 +74,40 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'widget_tweaks',  # for django-widget-tweaks
 
-    # Simple authentication apps
+    # AllAuth apps
     'django.contrib.sites',
-    'authentication',  # our simple auth app
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.google',
     
-    'dashboard',  # missing app
-    'library',    # missing app
-    'videos', #app
+    # Our apps
+    'authentication',  # our simple auth app (keep for compatibility)
+    'dashboard',
+    'library',
+    'videos',
 ]
 
-# Simple authentication config
+# AllAuth configuration (production-safe)
 SITE_ID = 1
 
 AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',
 ]
+
+# AllAuth settings
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_EMAIL_VERIFICATION = 'none'  # Skip email verification for easier setup
+ACCOUNT_USERNAME_REQUIRED = False
+ACCOUNT_AUTHENTICATION_METHOD = 'email'
+LOGIN_REDIRECT_URL = '/dashboard/'
+LOGOUT_REDIRECT_URL = '/'
+ACCOUNT_LOGOUT_ON_GET = True
+
+# Social account settings
+SOCIALACCOUNT_LOGIN_ON_GET = True
+SOCIALACCOUNT_AUTO_SIGNUP = True
 
 LOGIN_REDIRECT_URL = '/dashboard/'
 LOGOUT_REDIRECT_URL = '/'
@@ -230,3 +249,21 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 #     print(">>> Active Site:", site.domain)
 # except Site.DoesNotExist:
 #     print(">>> ❌ Site ID not found in DB!")
+
+# Google OAuth settings (from environment variables for security)
+SOCIALACCOUNT_PROVIDERS = {
+    'google': {
+        'SCOPE': [
+            'profile',
+            'email',
+        ],
+        'AUTH_PARAMS': {
+            'access_type': 'online',
+        },
+        'APP': {
+            'client_id': os.getenv('GOOGLE_CLIENT_ID', ''),
+            'secret': os.getenv('GOOGLE_CLIENT_SECRET', ''),
+            'key': ''
+        }
+    }
+}
