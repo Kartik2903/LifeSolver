@@ -17,4 +17,7 @@ python manage.py collectstatic --no-input
 echo "Running migrations..."
 python manage.py migrate
 
+echo "Setting up OAuth and site configuration..."
+python manage.py setup_oauth
+
 echo "Build completed successfully!"
